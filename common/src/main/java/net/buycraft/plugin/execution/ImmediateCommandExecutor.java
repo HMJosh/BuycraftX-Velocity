@@ -18,6 +18,7 @@ public class ImmediateCommandExecutor implements Runnable {
     @Override
     public void run() {
         if (platform.getApiClient() == null) {
+            platform.log(Level.SEVERE, "Immediate Command Executor is not available...");
             return; // no API client
         }
 

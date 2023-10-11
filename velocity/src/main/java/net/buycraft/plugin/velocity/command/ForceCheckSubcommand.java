@@ -2,8 +2,9 @@ package net.buycraft.plugin.velocity.command;
 
 import com.velocitypowered.api.command.CommandSource;
 import net.buycraft.plugin.velocity.BuycraftPlugin;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class ForceCheckSubcommand implements Subcommand {
     private final BuycraftPlugin plugin;
@@ -15,22 +16,26 @@ public class ForceCheckSubcommand implements Subcommand {
     @Override
     public void execute(CommandSource sender, String[] args) {
         if (args.length != 0) {
-            sender.sendMessage(TextComponent.of(plugin.getI18n().get("no_params")).color(TextColor.RED));
+            final TextComponent textComponent = Component.text().content(plugin.getI18n().get("no_params")).color(NamedTextColor.RED).build();
+            sender.sendMessage(textComponent);
             return;
         }
 
         if (plugin.getApiClient() == null) {
-            sender.sendMessage(TextComponent.of(plugin.getI18n().get("need_secret_key")).color(TextColor.RED));
+            final TextComponent textComponent = Component.text().content(plugin.getI18n().get("need_secret_key")).color(NamedTextColor.RED).build();
+            sender.sendMessage(textComponent);
             return;
         }
 
         if (plugin.getDuePlayerFetcher().inProgress()) {
-            sender.sendMessage(TextComponent.of(plugin.getI18n().get("already_checking_for_purchases")).color(TextColor.RED));
+            final TextComponent textComponent = Component.text().content(plugin.getI18n().get("already_checking_for_purchases")).color(NamedTextColor.RED).build();
+            sender.sendMessage(textComponent);
             return;
         }
 
         plugin.getPlatform().executeAsync(() -> plugin.getDuePlayerFetcher().run(false));
-        sender.sendMessage(TextComponent.of(plugin.getI18n().get("forcecheck_queued")).color(TextColor.GREEN));
+        final TextComponent textComponent = Component.text().content(plugin.getI18n().get("forcecheck_queued")).color(NamedTextColor.GREEN).build();
+        sender.sendMessage(textComponent);
     }
 
     @Override
